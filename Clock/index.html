@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Clock</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            background-color: #f4f4f4;
+        }
+
+        .clock-container {
+            width: 400px;
+            height: 400px;
+            background: url("clock.jpg") no-repeat;
+            background-size: 100%;
+            border-radius: 50%;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            border: 10px solid #8f7d6f;
+            padding: 10px;
+        }
+
+        .clock-inside {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            left: 0;
+            top: 0;
+        }
+
+        .clock-inside::before,
+        .clock-inside::after {
+            content: '';
+            width: 100%;
+            height: 8px;
+            background-color: #fff;
+            border-radius: 8px;
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .clock-inside::after {
+            transform: rotate(90deg);
+        }
+
+        .clock-inside .scale {
+            width: 100%;
+            height: 4px;
+            background-color: #fff;
+            position: absolute;
+            left: 0;
+            top: 50%;
+        }
+
+        .clock-inside .scale.line1 {
+            transform: translateY(-50%) rotate(30deg);
+        }
+
+        .clock-inside .scale.line2 {
+            transform: translateY(-50%) rotate(60deg);
+        }
+
+        .clock-inside .scale.line3 {
+            transform: translateY(-50%) rotate(120deg);
+        }
+
+        .clock-inside .scale.line4 {
+            transform: translateY(-50%) rotate(150deg);
+        }
+
+        .clock-outside {
+            width: 270px;
+            height: 270px;
+            border-radius: 50%;
+            position: absolute;
+            z-index: 1;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: url("clock.jpg") no-repeat;
+            background-size: 380px 380px;
+            background-position: -55px -55px;
+        }
+
+        .clock-outside .hand {
+            width: 50%;
+            height: 8px;
+            background-color: yellow;
+            position: absolute;
+            top: calc(50% - 4px);
+            left: 50%;
+            border-radius: 6px;
+            transform-origin: 0 center;
+        }
+
+        .clock-outside .hand.hour-hand {
+            width: 36%;
+            background-color: sandybrown;
+            transform: rotate(300deg);
+        }
+
+        .clock-outside .hand.minute-hand {
+            width: 46%;
+            height: 6px;
+            top: calc(50% - 3px);
+            background-color: sandybrown;
+            transform: rotate(270deg);
+        }
+
+        .clock-outside .hand.second-hand {
+            width: 54%;
+            height: 3px;
+            top: calc(50% - 1.5px);
+            background-color: red;
+            transform: rotate(305deg);
+        }
+
+    </style>
+</head>
+<body>
+<div class="clock-container">
+    <div class="clock-inside">
+        <div class="scale line1"></div>
+        <div class="scale line2"></div>
+        <div class="scale line3"></div>
+        <div class="scale line4"></div>
+
+        <div class="clock-outside">
+            <div class="hand hour-hand"></div>
+            <div class="hand minute-hand"></div>
+            <div class="hand second-hand"></div>
+        </div>
+    </div>
+</div>
+<script>
+    const hourDom = document.querySelector('.hour-hand')
+    const minuteDom = document.querySelector('.minute-hand')
+    const secondDom = document.querySelector('.second-hand')
+
+    function run() {
+        const now = new Date()
+        console.log(now)
+
+        const second = now.getSeconds()
+        const minute = now.getMinutes()
+        const hour = now.getHours() % 12
+
+        secondDom.style.transform = `rotate(${second * 6 - 90}deg)`
+        minuteDom.style.transform = `rotate(${minute * 6 + second * 6 / 60 - 90}deg)`
+        hourDom.style.transform = `rotate(${hour * 30 + minute * 6 / 12 + second * 6 / 60 / 12 - 90}deg)`
+    }
+
+    run()
+    setInterval(run, 1000)
+</script>
+</body>
+</html>
